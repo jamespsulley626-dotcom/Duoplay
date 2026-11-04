@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+/*
+ * Light, quiet palette: warm paper background, ink text, one teal accent.
+ * Everything else is greys so the game pieces carry the colour.
+ */
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, "PingFang SC", "Noto Sans SC", sans-serif;
+
+  --color-paper: #faf9f6;     /* page background */
+  --color-surface: #ffffff;   /* cards */
+  --color-line: #e8e6e0;      /* borders */
+  --color-ink: #1c1b19;       /* primary text */
+  --color-muted: #6f6c66;     /* secondary text */
+  --color-faint: #a19d95;     /* placeholders, hints */
+
+  --color-accent: #0f766e;    /* teal: buttons, links, active turn */
+  --color-accent-ink: #0b5c56;
+  --color-accent-soft: #e7f3f1;
+
+  --color-board: #136f68;     /* Connect 4 frame */
+  --color-hole: #f2f1ec;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Connect 4 disc drop: starts above the board and falls into its cell. */
+@keyframes drop {
+  from { transform: translateY(var(--drop-from, -400%)); }
+  70%  { transform: translateY(4%); }
+  85%  { transform: translateY(-3%); }
+  to   { transform: translateY(0); }
+}
+.animate-drop {
+  animation: drop 420ms cubic-bezier(0.35, 0, 0.6, 1) both;
+}
+
+@keyframes pop-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
+.animate-pop { animation: pop-in 200ms ease-out both; }
+
+/* Reversi disc flip: squash to an edge and back. */
+@keyframes flip {
+  0%   { transform: scaleX(1); }
+  50%  { transform: scaleX(0.05); }
+  100% { transform: scaleX(1); }
+}
+.animate-flip { animation: flip 320ms ease-in-out both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-drop, .animate-pop, .animate-flip { animation: none; }
+}
